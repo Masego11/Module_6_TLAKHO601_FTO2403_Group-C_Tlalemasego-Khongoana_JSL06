@@ -1,58 +1,67 @@
-// Sample menu data (Consider fetching this data from a server in a real-world scenario)
+
 const menu = {
-    Starters: ["Garlic Bread", "Bruschetta"],
-    MainCourses: ["Margherita Pizza", "Spaghetti Carbonara"],
-    Desserts: ["Tiramisu", "Cheesecake"]
+    Starters: ["Chicken Liver Salad", "Buffalo Winglets"],
+    MainCourses: ["Pepperoni Pizza", "Oxtail & Dumplings", "Spaghetti Bolognese"],
+    Desserts: ["Jelly Cake", "Cheesecake"]
 };
 
-// Function to display menu items by category
 function displayMenuItems(menu) {
-    // Get the menu container element from the HTML
+const cuisineMenu = document.getElementById('menu');
+    
+for (const category in menu) {
+    const categoryNames = document.createElement('h2');
+    categoryNames.textContent = category;
+    cuisineMenu.appendChild(categoryNames);
 
-    // Loop through each category and its items in the menu object
+    const itemsList = document.createElement('ul');
 
-        // Create an element to represent the category
+    cuisineMenu.appendChild(itemsList);
 
-        // Set the text content of the category element to the category name
+menu[category].forEach(item => {
+    const listItems = document.createElement('li');
+    listItems.textContent = item;
+    listItems.addEventListener('click', () => addToOrder(item));
+    itemsList.appendChild(listItems)
+    });
+}        
+           
+};
 
-        // Append the category element to the menu container
-
-        // Create an element to represent a list of items
-
-        // Append a list of items element to the menu container
-
-        // Loop through the items in the category and create list items
-
-            // Create a list item element
-
-            // Set the text content of the list item element to the item name
-
-            // Attach a click event listener to the list item to add it to the order
-
-            // Append the list item to the list of items
-
-            
-}
-
-// Callback function for adding an item to the order
 function addToOrder(itemName) {
-    // Get the order items list and the order total element from the HTML
+    let orderTotal = 0;
 
-    // Create a list item for the order
+    const orderItemsList = document.getElementById('order-items');
+    const orderItemsTotal = document.getElementById('order-total');
+    const listItems = document.createElement('li');
+ 
+    listItems.textContent = itemName;
+    orderItemsList.appendChild(listItems);
+  
+    const currentTotal = parseFloat(orderItemsTotal.textContent) || 0;
+    const itemPrice = getItemPrice(itemName);
+    const updatedTotal = currentTotal + itemPrice;
+    console.log(updatedTotal, itemPrice)
+    orderItemsTotal.textContent = updatedTotal.toFixed(2);
 
-    // Set the text content of the list item to the item name
-
-    // Append the list item to the order items list
-
-    // Calculate and update the total price
-
-    // Update the text content of the order total element with the new total
 }
 
-// Function to initialize the menu system
+function getItemPrice(itemName) {
+    const pricing = {
+        "Chicken Liver Salad": 80.50,
+        "Buffalo Winglets": 90.30,
+        "Pepperoni Pizza": 110.00,
+        "Oxtail & Dumplings": 180.60,
+        "Spaghetti Bolognese": 140.00,
+        "Cheesecake": 87.80,
+        "Jelly Cake": 72.90,
+        
+    };
+    return pricing[itemName] || 0;
+};
+
 function initMenuSystem(menu) {
-    // Call the function to display menu items
+    displayMenuItems(menu);
 }
 
-// Start the menu system by calling the init function
+
 initMenuSystem(menu);
